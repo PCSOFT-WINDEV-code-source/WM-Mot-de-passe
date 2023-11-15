@@ -1,0 +1,129 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : COL_CHAINESECURISEE
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1127878e00dc1215
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  type_code : 31
+  p_codes : []
+  procedures :
+   -
+     name : ChargeChaîneSécurisée
+     procedure_id : 1236105683885957244
+     type_code : 15
+     code : |1-
+      // Résumé : Charge une chaîne sécurisée précédemment par SauveChaîneSécurisée
+      // Syntaxe :
+      //[ <Résultat> = ] ChargeChaîneSécurisée (<sAlias> est chaîne [, <sValeurDéfaut> est chaîne])
+      //
+      // Paramètres :
+      //	sAlias (chaîne UNICODE) : Alias de la chaîne sécurisée à charger
+      // 	sValeurDéfaut (chaîne UNICODE - valeur par défaut="") : Valeur par défaut si la chaîne n'existe pas
+      // Valeur de retour :
+      // 	chaîne UNICODE : Chaîne sécurisée mémorisée ou chaîne vide ("") en cas d'erreur
+      //
+      procédure ChargeChaîneSécurisée( LOCAL sAlias est une chaine, sValeurDéfaut est une chaine = "" ) : chaine
+      
+      	SI EnModeSimulateur() ALORS
+      		ErreurDéclenche( 1, "La fonction n'est pas disponible en simulateur" )
+      		RENVOYER ""
+      	FIN
+      	
+      	// Clé sécurisé pour le décryptage
+      	sCléAlias est une chaine ansi = BufferVersHexa( HashChaîne( HA_MD5_128, sAlias ), SansRegroupement, SansLigne )
+      	
+      	// Charge la chaîne cryptée
+      	sSécure est une chaine ansi = chargeParamètre( "Secure_" + sAlias, "" )
+      	
+      	// La chaîne est vide, on renvoie la valeur par défaut
+      	si sSécure = "" alors
+       		renvoyer sValeurDéfaut
+       	fin
+      	
+      	<COMPILE SI TypeConfiguration=Android>
+      	
+      	// Décrypte la chaîne
+      	sUnsécure est une chaine = JAVA__ChargeChaineDecryptee( sCléAlias, sSécure )
+      	
+      	<fin>
+      	
+      	<COMPILE SI TypeConfiguration=ios>
+      
+      	// Décode et décrypte la chaîne	
+      	bufData est un buffer = decode( sSécure, encodeBASE64SansRC )
+      	sUnsécure est une chaine = OBJC__ChargeChaineDecryptee( sCléAlias, bufData )
+      	
+      	<fin>
+      	
+      	renvoyer sUnsécure	
+     type : 458752
+   -
+     name : SauveChaîneSécurisée
+     procedure_id : 1236105683886022843
+     type_code : 15
+     code : |1-
+      // Résumé : Mémorise une chaîne de façon sécurisée
+      // Syntaxe :
+      //[ <Résultat> = ] SauveChaîneSécurisée (<sAlias> est chaîne, <sChaîne> est chaîne)
+      //
+      // Paramètres :
+      //	sAlias (chaîne UNICODE) : Alias de la chaîne à sécuriser
+      //	sChaîne (chaîne UNICODE) : Chaîne à sécuriser
+      // Valeur de retour :
+      // 	booléen : <indiquez ici le rôle de la valeur de retour>
+      //
+      procédure SauveChaîneSécurisée( local sAlias est une chaine, local sChaîne est une chaine ) : booléen
+      
+      	si EnModeSimulateur() ALORS
+      		ErreurDéclenche( 1, "La fonction n'est pas disponible en simulateur" )
+      		renvoyer faux
+      	FIN
+      	
+      	si sChaîne = "" alors
+       		ErreurDéclenche( 2, "La chaîne à sécuriser est vide" )
+       		renvoyer faux
+       	fin	
+      	
+      	// A partir de l'alias, crée une clé qui servira de nom à la paire de clés privée/publique utilisée pour le cryptage de la chaîne
+      	sCléAlias est une chaine ansi = BufferVersHexa( HashChaîne( HA_MD5_128, sAlias ), SansRegroupement, SansLigne )
+      
+      	<compile si TypeConfiguration=Android>
+      
+      	// Crypte la chaîne
+      	sSécure est une chaine ansi = JAVA__SauveChaineCryptee( sCléAlias, sChaîne )
+      	
+      	<fin>
+      	
+      	<compile si TypeConfiguration=ios>
+      	
+      	// Crypte la chaîne
+      	bufData est un buffer = OBJC__SauveChaineCryptee( sCléAlias, sChaîne )
+      	
+      	// Encode les données cryptées
+      	sSécure est une chaine ansi = encode( bufData, encodeBASE64SansRC )
+      	
+      	<fin>
+      	
+      	// Mémorisation
+      	SauveParamètre( "Secure_" + sAlias, sSécure )
+      	
+      renvoyer vrai
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : COL_SansNom1
+resources :
+ string_res :
+  identifier : 0x1127878500daee60
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

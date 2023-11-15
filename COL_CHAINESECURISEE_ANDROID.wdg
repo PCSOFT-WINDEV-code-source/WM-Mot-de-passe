@@ -1,0 +1,205 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : COL_CHAINESECURISEE_ANDROID
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x112f4b5d00052a95
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  type_code : 31
+  p_codes :
+   -
+     code : |1-
+      
+      si EnModeSimulateur() = faux ALORS
+      	JAVA__Init()	
+      FIN
+     type : 720896
+  procedures :
+   -
+     name : JAVA__Init
+     procedure_id : 1238291285354621589
+     type_code : 15
+     group : 5
+     code : |1-
+      import android.security.keystore.KeyGenParameterSpec;
+      import android.security.keystore.KeyProperties;
+      import android.util.Base64;
+      
+      import java.io.IOException;
+      import java.nio.charset.StandardCharsets;
+      import java.security.InvalidAlgorithmParameterException;
+      import java.security.InvalidKeyException;
+      import java.security.KeyStore;
+      import java.security.KeyStoreException;
+      import java.security.NoSuchAlgorithmException;
+      import java.security.NoSuchProviderException;
+      import java.security.UnrecoverableEntryException;
+      import java.security.cert.CertificateException;
+      
+      import javax.crypto.BadPaddingException;
+      import javax.crypto.Cipher;
+      import javax.crypto.IllegalBlockSizeException;
+      import javax.crypto.KeyGenerator;
+      import javax.crypto.NoSuchPaddingException;
+      import javax.crypto.SecretKey;
+      import javax.crypto.spec.IvParameterSpec;
+      
+      private static void JAVA__Init() 
+      {
+      	try {
+      		// Charge le keystore de façon globale
+      		keyStore = JAVA__LoadKeyStore();
+      		
+      	} catch( KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e ) {
+      	 	e.printStackTrace();	 	
+      	}
+      }
+      
+      // Constantes et mémorisation globale du keystore
+      private static final String TRANSFORMATION = KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_CBC + "/" + KeyProperties.ENCRYPTION_PADDING_PKCS7;
+      private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
+      private static final String SEPARATOR = ",";
+      private static KeyStore keyStore = null;
+      
+      // Charge le keystore
+      private static KeyStore JAVA__LoadKeyStore() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException
+      {
+      	// Obtient une instance du keystore
+      	keyStore = KeyStore.getInstance( ANDROID_KEY_STORE );
+      	
+      	// Charge le keystore
+      	keyStore.load(null);
+      	
+      	return keyStore;
+      }
+      
+      // Charge une clé nommée
+      private static SecretKey JAVA__GetKey( String sAlias ) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException
+      { 
+      	SecretKey secretKey = null;
+      
+      	try {
+      
+      		// Obtient l'entrée contenant la clé
+      		final KeyStore.SecretKeyEntry secretKeyEntry = ( KeyStore.SecretKeyEntry ) keyStore.getEntry( sAlias, null );
+      		
+      		// On a trouvé l'entrée, on lit la clé
+      		if (secretKeyEntry != null) secretKey = secretKeyEntry.getSecretKey();
+      		
+      	} catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableEntryException e) {		
+      		e.printStackTrace();
+      	}
+      	
+      	// Si on n'a pas de clé, on la génère
+      	if ( secretKey == null ) {
+      		
+      		// Crée un générateur AES depuis le Keystore
+      		final KeyGenerator keyGenerator = KeyGenerator.getInstance( KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE );
+      		
+      		// Définit les paramètres du générateur
+      		final KeyGenParameterSpec keyGenParameterSpec =	new KeyGenParameterSpec.Builder(
+      															sAlias,
+      															KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT
+      														).setBlockModes( KeyProperties.BLOCK_MODE_CBC )
+      														 .setEncryptionPaddings( KeyProperties.ENCRYPTION_PADDING_PKCS7 )
+      														 .build();
+      		
+      		// Initialise le générateur avec les paramètres précédents
+      		keyGenerator.init( keyGenParameterSpec );
+      		
+      		// Crée la clé
+      		secretKey = keyGenerator.generateKey();		
+      	}
+      	
+      	return secretKey;
+      }
+     language : Java
+     type : 458752
+   -
+     name : JAVA__SauveChaineCryptee
+     procedure_id : 1238291285354687125
+     type_code : 15
+     group : 5
+     code : |1-
+      // Crypte une chaîne
+      public static String JAVA__SauveChaineCryptee( String sAlias, String sData )
+      {
+      	try {
+      		
+      		// Obtient la clé avec l'alias
+      		SecretKey secretKey = JAVA__GetKey( sAlias );
+      		
+      		// Initialise le moteur de cryptage
+      		final Cipher cipher = Cipher.getInstance( TRANSFORMATION );
+      		cipher.init( Cipher.ENCRYPT_MODE, secretKey );
+      		
+      		// Crypte et encode en base64
+      		String iv = Base64.encodeToString( cipher.getIV(), Base64.DEFAULT );
+      		String encrypted = Base64.encodeToString( cipher.doFinal( sData.getBytes( StandardCharsets.UTF_8 ) ), Base64.DEFAULT );
+      		
+      		// Renvoie la chaîne cryptée et l'IV
+      		return encrypted + SEPARATOR + iv;	
+      	
+      	// NoSuchProviderException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException
+      	} catch( Exception e ) {		
+      		e.printStackTrace();
+      		return "";
+      	}
+      }
+     language : Java
+     type : 458752
+   -
+     name : JAVA__ChargeChaineDecryptee
+     procedure_id : 1238291285354752661
+     type_code : 15
+     group : 5
+     code : |1-
+      // Décrypte une chaîne
+      public static String JAVA__ChargeChaineDecryptee( String sAlias, String sCryptedData )
+      {
+      	try {
+      
+      		// Obtient la clé avec l'alias
+      		SecretKey secretKey = JAVA__GetKey( sAlias );
+      		
+      		// Découpe la chaîne cryptée
+      		String[] parts = sCryptedData.split( SEPARATOR );
+      		if (parts.length != 2) return "";
+      			
+      		// Sépare les données cryptées de l'IV et décode
+      		byte[] encrypted = Base64.decode( parts[ 0 ], Base64.DEFAULT ),
+      					  iv = Base64.decode( parts[ 1 ], Base64.DEFAULT );
+      		
+      		// Préparation du décryptage
+      		final Cipher cipher = Cipher.getInstance( TRANSFORMATION );
+      		IvParameterSpec spec = new IvParameterSpec( iv );
+      		cipher.init( Cipher.DECRYPT_MODE, secretKey, spec );
+      		
+      		// Décrypte et renvoie la chaîne décryptée
+      		return new String( cipher.doFinal( encrypted ), StandardCharsets.UTF_8 );
+      	
+      	// NoSuchProviderException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException
+      	} catch( Exception e ) {		
+      		e.printStackTrace();
+      		return "";
+      	}	
+      }
+     language : Java
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : COL_SansNom1
+resources :
+ string_res :
+  identifier : 0x1127505600c85cd4
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

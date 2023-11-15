@@ -1,0 +1,100 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : MDLC_Info
+ major_version : 28
+ minor_version : 0
+ type : 20
+ description : ""
+ subtype : 0
+window :
+ name : MDLC_Info
+ identifier : 0x277232e20498d1ad
+ internal_properties : CAAAAAgAAADfOFJycU/+Hft7MhvUHyigGT3wUgRWjig/tFt8gvTRGix1LG6x4IOupJHxON48W27OeAt61Pze6Bkbhj3XDN9YW0PY6RS8qVMN3dk4C4XiS05MyDOeUXApIjVNvyT8FxHol2dGJDTjhuC6Pp8WmPoC6s4iFPOlTL5K+crvHy2URlPrKe8tWnTMxL+JweAAc0+xN4df9HrxaArA0PFoMVJdwnSSbyao5xPrTvM7vTPVerXdv/hA+DfmJAbivtULf/vGLtzZvbllm8qVoXvWmQ+MBlUoDfqLb5dsBU2t2F+5t7F9+q5yRjMEzRDg988eyO9GSCCn/RPL6mrRvl1pJVQdKuSRat8Lti8/wkd1NP2njzE2NGWKw/bSmBKjKNjkdZL/edFmbgktw6eJOt0v0zKtxM8aFueoRlz1Hm/91ooy87YuDe8LWufj2L9vr+a0qnqRrr5Qpiu0qKAeive8zWGueQDWC4XnvXUY2hR2RQXxNbARuuwXzsHJZQSGjFi7pGwPC+YJ1ulEG03XkXdGJ4i9gjBfWDataa3r5M4b/jiebzDxBtJMbqzhS05Ai3STtrOgfyRCd9qrOdVSyq5HsAPtbPFsxwW4k9cP+h6MrFQorTBLufOJiqcRcUo//vfuij5r/hkUrzs/URHBqQM2srl+Ud/mlBX6Sk61mgLeTCT6LjqXIvDann0zxOO6/j0QEDeDbkQOelTy+aDbFHY20tVJ4NIJOFNTEnRnuNh1jvv63HKBazjkwIf3gyAY2PufyhQd84nDCyxLAWk4cbjOvfcIKIPcIqUuG2VHLt4Bn8kkzipDk2UFGzRSEzrS6CWQYoCDgB2CGztdI69issssSw==
+ properties :
+  width : 280
+  height : 68
+ controls :
+  -
+    name : MDLC_Info
+    identifier : 0x277232e20499d1ad
+    internal_properties : CAAAAAgAAAA0tl8+cOLWJnGwcMG2qYCzPIisscR2kUJy0nQeIt/opyOzdQyZeMsiU+wbXO1JVerqov0v+1ZhCVKgb/DjbmytfyLi2dspsXx5q3JNkPuivUch+XP6W/a9W0KO+8Ko5nreY3g77oJAFfqeBfP55DQPmXRQp0SAVaW1lN2dKNVwgQ1CmcbY0tDI6/Snu4AWpKOOP5b6dlTDvCnO5WAWrZbSEB3aNDqfYBTl5dDNiLUBXcBgsHeQRie1dX9aKokFKw6dQaUWYTZFSQD/M784UtY3ID78gcc0v6aacQR3+VFHlN1/V9hTHmSjGIBTOgX6GDrtn8OIYKivFbbph7mOeYN8TBrEtfxAZJ3dOVmTVUH73bMtHx0r2FQCs6UH0bUsn/Jadpm1uAz969uwffWAZrpXO9uOiKLD61ENREE0dUcwAYM3ghrtEARr3RLSWfLSvgE966mcAdGRrsOsz971Ait37g82B4XnbJ8uKHNLrw==
+    properties :
+     width : 280
+     height : 68
+    controls :
+     -
+       name : IMG_Gauche
+       identifier : 0x277232e2049ad1ad
+       internal_properties : CAAAAAgAAAC+ujfln/X7/FvK+TB2CIpqovGiXmqL+2u3mWefd1fvzp15ztrzp/na1eQ3PKNiEnXx3npVVlcBvDw7zFxsxL/c8cCcHoC8IDlUCzF99qxlMAYEHz6K9RFoL9Dp7tI2XPM/MZoZLMsnkbUXJfXdektEOUDQbuE73fuoI7Di1G/ezw5QMhpsRxcfjs0sc/9BzRvEdO5pHzxfwJB41PHeKuk/8u0HIBwRtmylGpZBOFeeIm/SwOvMakRajV94/qtjYrzg4ouz84LIBlim0fTaCIGKIHpJ+tn5siHoWrPqeRpW5G+o2LYRuK27l1Ch4Tw/rDcQ29BG2zbBsLXvr7WUqy9qysfnpUHPdNjhjXbFHcFMdQJt+ipLdY3OCUmgxC8pUe4l4o/VelqJsgQLqETv01NmiKmBLJpYunYpXUn7dx5n/UcWaqAs5Ht7HeHIyHWVmlCQ+VFv5aNgI6noHCTNLB6DeulW5kT/+N8l6t6+WjBhRwepz051jkh2NZGPehk599vpW9Bel42HZQQJBi6RHeQYQ0dCN1nrF/k67S+9RWSK6qppe3m+wgzuHh02wteDtnJuccelzeBptZQ+i19nWcMiDY89/4vjrScizj95Qa4U7Z0BUUX7F/7oZs9CSP76FDwYWrCOiwWUbR6ibhqiweem4KJOrrZy/GIh9dT4CKwsud2UYEDGImjM2J3nb9ikLbW69+MyEl6GgL1uQMLvZjwQW6BlYCMFOC+pvot6TZ1Ic7bhMaVimx2m2onEA10XPp+UqrjBkQXpabDNzQpCsXw61IjbSliOLWpCPSJhI524Jauv
+       properties :
+        width : 6
+        height : 68
+       type : 8
+       code_elements :
+        type_code : 8
+        p_codes : []
+     -
+       name : IMG_Marge_Gauche
+       identifier : 0x277232e2049bd1ad
+       internal_properties : CAAAAAgAAAAIbDVy18gewv0LN0B0UCcwDX2BKw6HLsMOnfP2Se4Q6mDS4cZWe+aeSfrOMbjiQdRULeHPfowEEfia9FKt9a2wl9YjFwjZkqbv/MD775EJX/xv56z5prcdlqxUIHDnAREC8MnDmUO+UcwLXU1RssWRfFTF9UEuvgRDA6Dot4cJh21pomynr5wj3mHgNjp1UwPOKAv1h7SbEZD9LCjDXV3te/e6kmlpK1oRdlNMEbayOCoocBVDTfIAaZ3DFnyz2i7JEdECjyuiRW+02hq656G3LuWTcTDAxZly4jiGJGrXU1t8Mea1pyTxcjrIzroBElx+nVZvVAMCcfc61eJqlKv63t+6U+HxmsKk6oaA+5BpZ2qD9lSm0t8w3PkuAZJ/XU4Z+9pNBkVO5IT3GM66nG0oMnY5pkcyUDpHyyaB8z5tYkC/aR4Liz6IlFccZd6gnHNFcU3bFuozBRzlkJtrRQ53xHAIgoD8POEbM0w715H2VOjKVMtNsHR9zdZ2qekzoAXy15BIP+cFYCXDqLEJMiWT4xCyvxd6TgSPUIVw1aI+eupSLwxiAtzkf1Voh87rGHRgQbUQ3a8TeLFMmCcolzVsszlxSxXvn1JVg1R7BIxUugsPGs3Y0rKjjAOlgqxJYVQUH5L/BCsl11hWIH7RteoytWxTLIsBE5YnzNlIWM9oBOzCUPtVbyXlfnZqRKaRbX0XOf1KGAR62LQFVYPZ8Q2CjuHqFqJMiVFAVAdDcehdDEXjtv8rHy/TtDAiA9YpQufwA0fRayfvAAiMkvA3aZirQyiPSOCjapEdIek=
+       properties :
+        x : 6
+        width : 6
+        height : 68
+       type : 8
+       code_elements :
+        type_code : 8
+        p_codes : []
+     -
+       name : LIB_Info
+       identifier : 0x277232e2049cd1ad
+       internal_properties : CAAAAAgAAAChcTAOL67TuGLx8nUQO82lIcxb+bjNV70WzuVHf7yMC50tJyE6JtMaa4RMuUBhTyx4H8T2mrlx9fDePWGq0g2wv0Fj8t4cyqrZ/CHW9sn8ZxJYnXt0ObRJvB2KAX3n1392arxkgvFXQr10vx6eMODX6djbYwHbAOf2GA3TZdg1TQiI085Nb+gj6fxEfxbs49er/zhznKUNUGyc6E7gjJLiBHcko1IoME7t6dbhLIvAeU3ALOTrZZv58bGdkH/Y7b8UMdUu8avVQ8sbAmQuySLtHSPABaQC3sMU+9kyCS2f+K7bFqrNOwctIbSf+Eg+MSjxBayYB1cL05WbvTvZsFigs5/CUDUC0OIJ5qmDNgkuDjAoXWRjLqKXXxpV0o2gXiEDxsLTKrNWi35KlfK6tOfCFSuuQhiUqCq4NtYFLU+bSbaBuvZkkqBKfo3mHc6Z238vPD1CUfMOMX+QK2Tl5A5xVckxFmRAkfGnWudDBXjQtrJD8ptPUkcGYPscYw6vC5WcIAP4O0GZ3QcLYnmc9puuow==
+       properties :
+        x : 12
+        width : 262
+        height : 68
+       type : 3
+       code_elements :
+        type_code : 2
+        p_codes : []
+     -
+       name : IMG_Marge_Droite
+       identifier : 0x2772339504d18c88
+       internal_properties : CAAAAAgAAAB7Hc7P4JnX3WySyOuHZc9hPkKSCo0+75AjagT/1j17AYnR4JGxTsVfHruNaqaVbP2hhopG8DCh1Xgxw89QWIjRrDekHnOk0/8w99fE5ujOrAG8UAks+eiEnJYeEoZVG/eoXpdlpxlI2+4Nx2eHKC8/SpCgqod0MGZdpfpyHf0CVfOHHNRD2XYrZttecq22D+3ePkH1r2xJJejHOGxldfH/b9nAqtUFzVI5gNBdMgL+bA1GbCeCqz/svT+XwAmmNvLGAnofnduZeD53O1wD0y8pvgNowUhlGGKwTcmNtCiZNXs4btLJwP2lD00Wu7GUScV6R5W9X/s3u9zetCSen848lWPYeHHJngrvL1FtKSI/i4y/pjacgKPivhnMs+r1w4pPcyKrDCPiXs7/JsCiE/Sxuf+Q+fIpOSdQxE2YWtmAt/v8JBVCXhvd0djbTMXb9dm2+Sgc/wVia/Lt647n6vMamnw1+xyg1fiD0fYwt8gEm3kWL151s09+q7rkG7MNOE5KtJ/uuNVXqkDq+aIMta35vgS9ywYRIfzIKBRDTgiFI49nKHOYXgmT2Hb4xQ4R+xChWFrFaqQO9wDrFeDx0DK/MBxSFJ7wrmkUnm1oWWrzG6T+BzplvZdk/aTiq5R9bZAEZ0ZvVD8hzqJCILI9NWpSMYBDeDchQ0Z32PG0TMc4lNguwCl7izkBejqACGDR7d2Xo3UkCrRawkI7eU1jef1CEqNvNOD1XYP+VrdRd8y2y67cQw4a7AIspR27bnmK4x7M57klTzndZIQQOPSiDn2+BMnI70+sYQZOEto=
+       properties :
+        x : 274
+        width : 6
+        height : 68
+       type : 8
+       code_elements :
+        type_code : 8
+        p_codes : []
+    type : 42
+    code_elements :
+     type_code : 92
+     p_codes : []
+ menu :
+  name : _Menu
+  identifier : 0x277232d9048bafae
+  internal_properties : CAAAAAgAAAAFaI2qJX8UEB99XfCx9752u+izfpc4JSeOKmGiFAFrLKT8g2mwifkii2XXStoBIVaLzyYEll9OQWwwtVQkhOL25O5kKxgRsGgPtw/aT2D0GJ1OZgV3uLj4vAHCBNQ22RwXJabu0YQxKOIryJN6crP2TV9D9PVx1vcec+SYLIg2eE0dcKgBstk2sfz5FDcPtsdmMCrXeDcYNMx42DWT6wZ8RVpCOHhtrQu3yim4HtmZUBfg+gvgEIwKnItfuOkQw/AuJSVjoIRRvGM3zpIEKh2/5W93vf+yOn4yHr6xTEZoUURWCsrcBMNgMzFrgKK/bv0=
+  options : []
+ languages :
+  - fr-FR
+ popup_menus : []
+ message_bar : {}
+ actionbar : {}
+ code_elements :
+  type_code : 91
+  p_codes : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : MDLC_SansNom1
+resources :
+ string_res :
+  identifier : 0x1fd10d820096c776
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAAC68/W0/adbG0nFCRhrE42B5HRnbDzVHaz86sSQyxlBk7I=
+rad :
+ internal_properties : CAAAAAgAAABoAN7PLpwJW3EiA7WVZdCA5EwrCA1rvutcDHooMWKe

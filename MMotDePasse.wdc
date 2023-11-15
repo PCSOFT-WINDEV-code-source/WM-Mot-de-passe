@@ -1,0 +1,70 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : MMotDePasse
+ major_version : 28
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x101171e005d8158f
+ internal_properties : CAAAAAgAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ code_elements :
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      MMotDePasse est une Classe <mapping=MotDePasse>
+      
+      	// Le code se trouvant entre <MAPPING> et <FIN> est généré automatiquement.
+      	// Il sera effacé et recréé entièrement à chaque génération depuis le menu contextuel
+      	// du fichier dans l'explorateur de projet "..Regénérer la classe modèle".
+      	<MAPPING>
+      	m_nIDMotDePasse			est un entier sur 8 octets	<mapping=IDMotDePasse, clé unique>
+      	m_sLibMotDePasse		est une chaîne UNICODE		<mapping=LibMotDePasse>
+      	m_sNomUtilisateur		est une chaîne UNICODE		<mapping=NomUtilisateur>
+      	m_bufMotDePasse			est un buffer				<mapping=MotDePasse>
+      	m_bufPicto				est un buffer				<mapping=Picto>
+      	m_sURL					est une chaîne ANSI			<mapping=URL>
+      	m_bFavori				est un booléen				<mapping=Favori>
+      	m_dhDateCréation		est une dateheure			<mapping=DateCréation>
+      	m_dhDateModification	est une dateheure			<mapping=DateModification>
+      	m_dhDateAccès			est une dateheure			<mapping=DateAccès>
+      	m_dDateExpiration		est une date				<mapping=DateExpiration>
+      	m_sDescription			est une chaîne				<mapping=Description>
+      	m_nIDCatégorie			est un entier sur 8 octets	<mapping=IDCatégorie>
+      	<FIN>
+      	
+      FIN
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 1157831786195654031
+     type_code : 27
+     code : |1-
+      PROCEDURE Constructeur()
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 1157831786195719567
+     type_code : 28
+     code : |1-
+      PROCEDURE Destructeur()
+     type : 655360
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : Classe1
+resources :
+ string_res :
+  identifier : 0x101171e105e1166a
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text : {}
+     index : 0
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

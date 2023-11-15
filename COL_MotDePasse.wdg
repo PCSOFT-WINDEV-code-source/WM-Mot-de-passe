@@ -1,0 +1,896 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : COL_MotDePasse
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x15801fc600490525
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  type_code : 31
+  p_codes :
+   -
+     internal_properties : CAAAAAgAAACHRIaBFKzINiqszdk93mzxi2U5AXqX/rFWYRDPrHWZblXv8GqeRofyG0qzNJfyLrNY8SSG56/DLBgh9WkJmVdsnnaWhzQGotudBQnaBygI2P3nKSzxwMmEtXXAL719Cw0w8ztgCYDdXlc3A50F6gWLzaDthyxeJ33dAdQeiFFPvn4lbnZpkta3mxC8/4YpZMXj6u2u+c0rPbdck2jOjuQ=
+     code : |1+
+      CONSTANT
+      	SALT = "JH3#GV(CFT"
+      	NB_BOUCLE = 512
+      	CATEGORIE_AUCUN = "<aucun>"
+      	INFO_NON_RENSEIGNE = "<non renseigné>"
+      	
+      	FIC_PARAM = "param.ini"
+      	
+      	PARAM_AUTOLOCKVAL = "AUTOLOCKVAL"		// Verrouillage automatique sur inactivité (en secondes)
+      	PARAM_UTILISATEUR_DEFAUT = "DEFUSR"		// Nom d'utilisateur par défaut
+      	PARAM_VISU_MDP_EDITION = "VISUMDP"		// Mot de passe visible en édition
+      	PARAM_MODE_AUTH = "MODEAUTH"			// Mode d'authentification (constantes MODE_AUTH_xxx ci dessous)
+      	PARAM_MDP_TOUJOURS = "MDPTOUJOURS"		// Saisie du mot de passe principale à chaque iconisation
+      	PARAM_EFFACEPP = "EFFACEPP"				// Effacer automatiquement le mot de passe du presse-papier
+      	PARAM_VERROUBIO = "VERROUBIO"			// Permettre le déverrouillage par authentification biométrique
+      	
+      	ALIAS_BUF_MOT_DE_PASSE_PRINCIPAL = "MASTER_PWD"	// Alias de la chaine sécurisé contenant le dérivé du mot de passe principal
+      	ALIAS_BUF_MOT_DE_PASSE_HFSQL = "MASTER_DB"	// Alias de la chaine sécurisé contenant le dérivé du mot de passe de la base de données
+      	
+      	MODE_AUTH_INDEFINI = ""
+      	MODE_AUTH_PASS = "pwd"
+      	MODE_AUTH_PATTERN = "pattern"
+      	
+      	FIC_EXPORT = "passwords.xml"
+      FIN
+      
+      STPassword est une Structure
+      	Label est une chaîne <mapping="LibMotDePasse">
+      	Username est une chaîne <mapping="NomUtilisateur">
+      	Password est une chaîne
+      	Image est une chaine
+      	URL est une chaîne <mapping="URL">
+      	Favorite est un booléen  <mapping="Favori">
+      	CreationDate est un DateHeure <mapping="DateCréation">
+      	ModificationDate est un DateHeure <mapping="DateModification">
+      	LastAccessDate est un DateHeure <mapping="DateAccès">
+      	ExpirationDate est un DateHeure <mapping="DateExpiration">
+      	Description est une chaîne <mapping="Description">
+      	Category est une chaîne
+      FIN
+      
+      STRect est une structure
+      	x1,y1 sont des entiers
+      	x2,y2 sont des entiers
+      FIN
+      
+      gbBDDEstDisponible est un booleen = faux
+      gbufMotDePassePrincipal est un buffer
+      gsMotDePasseHFSQL est une chaine
+      
+      InitParamètre(paramIni,RepDonnées()+FIC_PARAM)
+     type : 720896
+  procedures :
+   -
+     name : OuvreBaseDeDonnées
+     procedure_id : 1549273262921234101
+     type_code : 15
+     code : |1+
+      // Résumé : Ouvre le fichier HFSQL des mots de passe
+      // Syntaxe :
+      //[ <Résultat> = ] OuvreBaseDeDonnées (<sMotDePassePrincipal> est chaîne, <bCalculeMotDePasse> est booléen)
+      //
+      // Paramètres :
+      //	sMotDePassePrincipal (chaîne UNICODE) : Mot de passe principal
+      //	bCalculeMotDePasse (booléen) : Vrai si le mot de passe principal est fourni et doit être dérivé (Faux si le mot de passe principal est déjà initialisé - cas de l'authentification biométrique)
+      // Valeur de retour :
+      // 	booléen : Vrai si la base est disponible
+      //
+      //	sCheminFichierHFSQL (chaîne UNICODE - valeur par défaut="") : Chemin à utiliser pour localiser le fichier HFSQL (si chaîne vide, utilise le chemin par défaut)
+      PROCEDURE PUBLIQUE GLOBALE OuvreBaseDeDonnées(sMotDePassePrincipal est une chaine, bCalculeMotDePasse est un booleen ) : booleen
+      
+      externe REQ_CategoriesNonVides
+      externe REQ_ListeMotDePasse
+      
+      HAnnuleDéclaration(REQ_CategoriesNonVides)
+      HAnnuleDéclaration(REQ_ListeMotDePasse)
+      hferme("*")
+      
+      si bCalculeMotDePasse alors
+      	// Mot de passe principal pour chiffrement des mots de passe stockés en base
+      	gbufMotDePassePrincipal = DeriveMotDePassePrincipal(sMotDePassePrincipal)
+      
+      	// Mot de passe du fichier HFSQL
+      	gsMotDePasseHFSQL = DeriveMotDePasseHFSQL(sMotDePassePrincipal)
+      fin
+      
+      // Ouverture des fichiers HFSQL
+      nERR est un entier
+      hchangerep(Categorie,RepDonnées())
+      SI HOuvre(Categorie,gsMotDePasseHFSQL)=Faux ALORS
+      	nERR = HErreur(hErrEnCours)
+      	RENVOYER Faux
+      FIN
+      
+      HChangeRep(MotDePasse,RepDonnées())
+      SI HOuvre(MotDePasse,gsMotDePasseHFSQL)=Faux ALORS
+      	nERR = HErreur(hErrEnCours)
+      	RENVOYER Faux
+      FIN
+      
+      gbBDDEstDisponible = vrai
+      RENVOYER Vrai
+      
+     type : 458752
+   -
+     name : DeriveMotDePassePrincipal
+     procedure_id : 1549668631849720348
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] DeriveMotDePassePrincipal (<sMotDePassePrincipal> est chaîne)
+      //
+      // Paramètres :
+      //	sMotDePassePrincipal (chaîne UNICODE) :<indiquez ici le rôle de sMotDePassePrincipal>
+      // Valeur de retour :
+      // 	Type indéterminé : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE DeriveMotDePassePrincipal( sMotDePassePrincipal est une chaine )
+      
+      // Si la chaine est vide, on n'appelle même pas HashChaine
+      SI sMotDePassePrincipal="" ALORS
+      	renvoyer ""
+      FIN
+      
+      buf0 est un buffer = ChaîneVersUTF8(sMotDePassePrincipal)
+      bufMDP est un buffer = ChaîneVersUTF8(sMotDePassePrincipal)
+      
+      n est un entier = 1
+      boucle(NB_BOUCLE)
+      	bufMDP = HashChaîne(HA_HMAC_MD5_128,bufMDP,buf0[[n]])
+      	n++
+      	si n>taille(buf0) ALORS
+      		n = 1
+      	FIN
+      FIN
+      
+      dbgAssertion(taille(bufMDP)=16)
+      
+      renvoyer bufMDP
+      
+     type : 458752
+   -
+     name : DeriveMotDePasseHFSQL
+     procedure_id : 1549668704864181348
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] DeriveMotDePasseHFSQL (<sMotDePassePrincipal> est chaîne)
+      //
+      // Paramètres :
+      //	sMotDePassePrincipal (chaîne UNICODE) : <indiquez ici le rôle de sMotDePassePrincipal>
+      // Valeur de retour :
+      // 	variant : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE DeriveMotDePasseHFSQL( sMotDePassePrincipal est une chaine )
+      
+      // renvoyer sMotDePassePrincipal
+      
+      buf0 est un buffer = ChaîneVersUTF8(ChaîneInverse(sMotDePassePrincipal))
+      bufMDP est un buffer = ChaîneVersUTF8(sMotDePassePrincipal)
+      bufMDP = HashChaîne(HA_SHA_256,bufMDP,buf0)
+      
+      RENVOYER crypte(bufMDP,"",crypteAucun)
+     type : 458752
+   -
+     name : ChangeMotDePassePrincipal
+     procedure_id : 1549673708501525824
+     type_code : 15
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] ChangeMotDePassePrincipal (<sNouveauMdpClair> est chaîne)
+      //
+      // Paramètres :
+      //	sNouveauMdpClair (chaîne UNICODE) : <indiquez ici le rôle de sNouveau>
+      // Valeur de retour :
+      // 	booléen : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE ChangeMotDePassePrincipal( sNouveauMdpClair est une chaine )
+      
+      externe REQ_CategoriesNonVides
+      externe REQ_ListeMotDePasse
+      
+      // Re chiffre les mots de passe
+      POUR TOUT MotDePasse 
+      	bufClair est un buffer = Dechiffre(MotDePasse.MotDePasse)
+      	MotDePasse.MotDePasse = Chiffre(bufClair,sNouveauMdpClair)
+      	HModifie(MotDePasse)
+      FIN
+      
+      sRep est une chaine = ComplèteRep(fRepDonnées())
+      
+      // Crée les nouveaux fichiers
+      _HChangeMotDePasse(Categorie,sNouveauMdpClair)
+      _hchangeMotDePasse(MotDePasse,sNouveauMdpClair)
+      
+      // Ferme les anciens fichiers
+      hferme("*")
+      // Ferme les requêtes
+      HAnnuleDéclaration(REQ_CategoriesNonVides)
+      HAnnuleDéclaration(REQ_ListeMotDePasse)
+      
+      // Supprime les anciens fichiers
+      _SupprimeAncienneBase(sRep,Categorie)
+      _SupprimeAncienneBase(sRep,MotDePasse)
+      
+      // Renomme les nouveaux fichiers
+      _RenommeFichier(sRep,Categorie)
+      _RenommeFichier(sRep,MotDePasse)
+      
+      // Ré-ouvre la nouvelle base
+      OuvreBaseDeDonnées(sNouveauMdpClair,vrai)
+      
+      
+      
+      renvoyer vrai
+     type : 458752
+   -
+     name : Dechiffre
+     internal_properties : CAAAAAgAAACusa8TiRhcT5h8TiAxEczT65EBt8vSgYIS60UuRVqUXXKayu2Sth7Mo7RRwvuAZvLd5nAYnaoIRUx3u9WS6kj1dP5sP8fR0ef9axosccYDbL7s2oMpK+eCbBnILBchtqEJt0c3lx4QHh6Bm4hkG2Jloo0m33YC4aCzf34i8a14wX9aP+9sxDDxGRSWsai1I3vq
+     procedure_id : 1549683303461026111
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] Dechiffre (<buf> est buffer)
+      //
+      // Paramètres :
+      //	buf (buffer) :<indiquez ici le rôle de buf>
+      // Valeur de retour :
+      // 	buffer : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE Dechiffre( local buf est un buffer )
+      
+      b est un buffer = DécrypteStandard(buf,gbufMotDePassePrincipal,crypteAES128,crypteCBC,cryptePaddingPKCS)
+      
+      renvoyer b
+      
+     type : 458752
+   -
+     name : Chiffre
+     internal_properties : CAAAAAgAAABz6rHSdJE+R7szw1VEQ9zzs3sWGqWDr5IgoRdP59FgcvNuLsPZG9xGwTBrK88BUiH/ZKd43Xnf1Rc8uil3eMS4CryKfo1cUQIHyAZLM/WgNrRxBExuUJFKBjDQBQuMJyfzsB22UiWyCE7AezaFkZYOAxH9WzZMaOfUDTPKH6Aha4Vt+dCpEX7b0SHIQtq1HN8=
+     procedure_id : 1549683385065424626
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] Chiffre (<bufMessage> est buffer [, <sNouveauPrincipal> est chaîne])
+      //
+      // Paramètres :
+      //	bufMessage (buffer) : <indiquez ici le rôle de sClair>
+      //	sNouveauPrincipal (chaîne UNICODE - valeur par défaut="") : <indiquez ici le rôle de sNouveauPrincipal>
+      // Valeur de retour :
+      // 	buffer : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE Chiffre( local bufMessage est un buffer , local sNouveauPrincipal est une chaine = "" )
+      
+      
+      bufSecret est un buffer = gbufMotDePassePrincipal
+      si sNouveauPrincipal<>"" alors
+      	bufSecret = DeriveMotDePassePrincipal(sNouveauPrincipal)
+      FIN
+      
+      bufCrypte est un buffer = crypteStandard(bufMessage,bufSecret,crypteAES128,crypteCBC,cryptePaddingPKCS)
+      
+      dbgAssertion(bufMessage=DécrypteStandard(bufCrypte,bufSecret,crypteAES128,crypteCBC,cryptePaddingPKCS))
+      
+      renvoyer bufCrypte
+     type : 458752
+   -
+     name : CréeBaseDeDonnées
+     internal_properties : CAAAAAgAAADiYz01e75qvWZ2Z1AvBYumqMV6NfrX2XC1/3r0WDVAD16nrdE3Qxno6SqDQRisvrk0/2GASszHuhX1+pRBmLc6XyVdYlKAdQTt/lxfRbjd8nnGxewvglVGRNYDlIWwvXQ55pQHjNluBZpuxt05
+     procedure_id : 1550385277196691462
+     type_code : 15
+     code : |1+
+      // Résumé : Ouvre le fichier HFSQL des mots de passe
+      // Syntaxe :
+      //[ <Résultat> = ] CréeBaseDeDonnées (<sMotDePassePrincipal> est chaîne)
+      //
+      // Paramètres :
+      //	sMotDePassePrincipal (chaîne UNICODE) : Mot de passe principal
+      // Valeur de retour :
+      // 	booléen : Vrai si le fichier est ouvert ou crée, Faux en cas d'erreur
+      //
+      //	sCheminFichierHFSQL (chaîne UNICODE - valeur par défaut="") : Chemin à utiliser pour localiser le fichier HFSQL (si chaîne vide, utilise le chemin par défaut)
+      PROCEDURE PUBLIQUE GLOBALE CréeBaseDeDonnées(sMotDePassePrincipal est une chaine ) : booleen
+      
+      // Mot de passe principal pour chiffrement des mots de passe stockés en base
+      gbufMotDePassePrincipal = DeriveMotDePassePrincipal(sMotDePassePrincipal)
+      
+      // Mot de passe du fichier HFSQL
+      gsMotDePasseHFSQL = DeriveMotDePasseHFSQL(sMotDePassePrincipal)
+      
+      // Ouverture du fichier HFSQL
+      
+      HChangeRep(MotDePasse,RepDonnées())
+      SI HCréation(MotDePasse,gsMotDePasseHFSQL)=Faux ALORS
+      	RENVOYER Faux
+      FIN
+      HChangeRep(Categorie,RepDonnées())
+      SI HCréation(Categorie,gsMotDePasseHFSQL)=Faux ALORS
+      	RENVOYER Faux
+      FIN
+      
+      // Initialisation des catégories par défaut
+      Categorie.NomCategorie = "Actualités"
+      hajoute(Categorie)
+      Categorie.NomCategorie = "Administratif"
+      hajoute(Categorie)
+      Categorie.NomCategorie = "Autre"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Banque"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Divertissement"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Email"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Jeux"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Réseaux Sociaux"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Shopping"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Sports"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Technologies"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Travail"
+      HAjoute(Categorie)
+      Categorie.NomCategorie = "Voyages"
+      HAjoute(Categorie)
+      
+      
+      gbBDDEstDisponible = vrai
+      RENVOYER Vrai
+     type : 458752
+   -
+     name : bBaseEstDisponible
+     procedure_id : 1552940688269374498
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] bBaseEstDisponible ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	booléen : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE bBaseEstDisponible()
+      
+      renvoyer gbBDDEstDisponible
+     type : 458752
+   -
+     name : _HChangeMotDePasse
+     internal_properties : CAAAAAgAAACuVq2OKd6mNBQDgKiWkE2BkXwyvF7pEt/qu+oJxNjhbVkNYzBdvhleqwO5w7tN2YmOkTZ/kOWd/cjMF0ggWZQfXOrR1/Ee9L8HVwDjNovy8PQo68rYfFulsGA3PY+2JtrFU69cy89TNTr0ru81KZVD6++yjnquqUNnNz2Hr5eIHY10xV3Ui3U27W4dYcK6hTWDvjSfeNot
+     procedure_id : 1554884307121743577
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] _HChangeMotDePasse (<NomFichier>, <sNouveauMdpClair>)
+      //
+      // Paramètres :
+      //	NomFichier : <indiquez ici le rôle de Catégorie>
+      //	sNouveauMdpClair : <indiquez ici le rôle de sNouveauHFSQL>
+      // Valeur de retour :
+      // 	booléen : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //// Traitement automatique des erreurs :   exécuter le bloc de code CAS ERREUR
+      //
+      
+      PROCEDURE _HChangeMotDePasse(NomFichier,sNouveauMdpClair)
+      
+      sRep est une chaine = RepDonnées()
+      
+      // Mot de passe du fichier HFSQL
+      sNouveauHFSQL est une chaine = DeriveMotDePasseHFSQL(sNouveauMdpClair)
+      
+      // Crée le nouveau fichier
+      sAlias est une chaine = minuscule(DonneGUID(guidBrut))
+      HAlias(NomFichier,sAlias)
+      HChangeNom(sAlias,NomFichier..NomPhysique+"_temp")
+      HChangeRep(sAlias,sRep)
+      HCréation(sAlias,sNouveauHFSQL)
+      POUR TOUT NomFichier
+      	HCopieEnreg(sAlias,NomFichier,hCopieIdAuto)
+      	hajoute(sAlias,hFixeIdAuto)
+      FIN
+      HFerme(sAlias)
+      
+      Renvoyer vrai
+      
+      CAS ERREUR:
+      	renvoyer faux
+     type : 458752
+   -
+     name : RepDonnées
+     procedure_id : 1555165266561815924
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] RepDonnées ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	variant : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE RepDonnées()
+      
+      renvoyer ComplèteRep(fRepDonnées())
+     type : 458752
+   -
+     name : _SupprimeAncienneBase
+     internal_properties : CAAAAAgAAAAdrIinQUC8/PWN+JCy9UANeJkzsJNoaDoyUvdjiuEeYF5Zw6rn31+uzRP+shJy3+BEcoi2HVVAW6OXjKlN+41bdlmo1ed467ErodfMtQaBw1wxYxQbSNBCOx7bXLE2d906xv6cXlnMuFW8sFhB//tVv1o3PJPC3LLMpZLd/uARWQ2zeI+XaShTqrylji76xY5yzKKaBiwNILCUZUV0q0P8PIkspzIm5CpXr8J5CbuApTaAtk76
+     procedure_id : 1555201967094478425
+     type_code : 15
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      // _SupprimeAncienneBase (<sRep>, <NomFichier>)
+      //
+      // Paramètres :
+      // 	sRep : <indiquez ici le rôle de sRep>
+      // 	NomFichier : <indiquez ici le rôle de NomFichier>
+      // Valeur de retour :
+      // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE _SupprimeAncienneBase(sRep,NomFichier)
+      
+      fSupprime(sRep+NomFichier..NomPhysique+".fic")
+      SI fFichierExiste(sRep+NomFichier..NomPhysique+".ndx") ALORS fSupprime(sRep+NomFichier..NomPhysique+".ndx")
+      SI fFichierExiste(sRep+NomFichier..NomPhysique+".mmo") ALORS fSupprime(sRep+NomFichier..NomPhysique+".mmo")
+     type : 458752
+   -
+     name : _RenommeFichier
+     internal_properties : CAAAAAgAAAA1lODvCZjktD1FQFhKvYjFQJHiuGXiZJAsPucptClqFKTRLY49FY/02/vOvMAmuwSuFprS7wM47TW7NK9fQ/H/yP3K8dUylwtp4ZOOY+7Nt5KBTYiZdpCgRQrWQ6ID6NIBA1PDh1JTy7ivr9vGeADeNtf0v0gXJxGncHEwa/HOqvysqRbo8i9i7Q8godNbUpcN3XP9c3lg74Pn/GBJHJDdb7o0rzrenGKfZwoxwfPIbX5IjmbS
+     procedure_id : 1555202224792576857
+     type_code : 15
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      // _RenommeFichier (<sRep>, <NomFichier>)
+      //
+      // Paramètres :
+      // 	sRep : <indiquez ici le rôle de sRep>
+      // 	NomFichier : <indiquez ici le rôle de NomFichier>
+      // Valeur de retour :
+      // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE _RenommeFichier(sRep,NomFichier)
+      
+      fRenomme(sRep+NomFichier..NomPhysique+"_temp.fic",sRep+NomFichier..NomPhysique+".fic")
+      SI fFichierExiste(sRep+NomFichier..NomPhysique+"_temp.ndx") ALORS fRenomme(sRep+NomFichier..NomPhysique+"_temp.ndx",sRep+NomFichier..NomPhysique+".ndx")
+      SI fFichierExiste(sRep+NomFichier..NomPhysique+"_temp.mmo") ALORS fRenomme(sRep+NomFichier..NomPhysique+"_temp.mmo",sRep+NomFichier..NomPhysique+".mmo")
+     type : 458752
+   -
+     name : ModeAuthentificationPrincipal
+     procedure_id : 1555510427347949631
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] ModeAuthentificationPrincipal ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	variant : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE ModeAuthentificationPrincipal()
+      
+      renvoyer ChargeParamètre(PARAM_MODE_AUTH)
+     type : 458752
+   -
+     name : ExporteBase
+     procedure_id : 1562582116776874371
+     type_code : 15
+     code : |1+
+      PROCEDURE ExporteBase()
+      
+      bufExport est un buffer
+      stExport est une STPassword
+      tabExport est un tableau de STPassword
+      sFichierExport est une chaine = sCheminExport()
+      
+      pour TOUT MotDePasse 
+      	// Lit le contenu de l'enregistrement
+      	stExport.Label = MotDePasse.LibMotDePasse
+      	stExport.Username = MotDePasse.NomUtilisateur
+      	stExport.URL = MotDePasse.URL
+      	stExport.Favorite = MotDePasse.Favori
+      	stExport.CreationDate = MotDePasse.DateCréation
+      	stExport.ModificationDate = MotDePasse.DateModification
+      	stExport.LastAccessDate = MotDePasse.DateAccès
+      	stExport.ExpirationDate = MotDePasse.DateExpiration
+      	stExport.Description = MotDePasse.Description
+      
+      	// Transforme l'ID de catégorie en chaine	
+      	si HLitRecherchePremier(Categorie,IDCategorie,MotDePasse.IDCatégorie) ALORS
+      		stExport.Category = Categorie.NomCategorie
+      	sinon
+      		stExport.Category = ""
+      	FIN
+      	// Déchiffre le mot de passe
+      	stExport.Password = Dechiffre(MotDePasse.MotDePasse)
+      	// Encode l'image en base 64
+      	stExport.Image = crypte(MotDePasse.Picto,"",crypteAucun)
+      	ajoute(tabExport,stExport)
+      FIN
+      
+      sérialise(tabExport,bufExport,psdXML)	
+      si fSauveBuffer(sFichierExport,bufExport)=faux ALORS
+      	toastaffiche(erreurinfo(errMessage))
+      sinon
+      <COMPILE SI TypeConfiguration=Android>
+      	ToastAffiche("Export terminé. Le fichier [%FIC_EXPORT%] a été enregistré sur la carte mémoire de l'appareil.")		
+      <FIN>
+      <COMPILE SI TypeConfiguration=iOS>
+      	toastaffiche("Export terminé. Vous pouvez récupérer le fichier [%FIC_EXPORT%] en utilisant le partage iTunes.")		
+      <FIN>
+      FIN
+      
+      <COMPILE SI TypeConfiguration=Android ou TypeConfiguration=iOS>
+      	
+      	Email.Sujet = "Export de la base de mots de passe"
+      	email.Message = "Sauvegarde de la base de mots de passe. Attention : les mots de passe sont en clair dans la pièce jointe !"
+      	Email.Attache[1] = sFichierExport
+      	Email.NbAttache = 1
+      	EmailLanceAppli()	
+      
+      <FIN>
+      
+     type : 458752
+   -
+     name : sCheminExport
+     procedure_id : 1562622090010498674
+     type_code : 15
+     code : |1+
+      PROCEDURE sCheminExport()
+      
+      si EnModeSimulateur() ALORS
+      	renvoyer ComplèteRep(frepexe())+FIC_EXPORT
+      FIN
+      
+      
+      <SI CibleExécution=Android>
+      	                   
+      	RENVOYER ComplèteRep(SysRepCarteStockage())+FIC_EXPORT
+      	
+      <SINON>
+      	
+      	RENVOYER ComplèteRep(fRepDonnées())+FIC_EXPORT
+      	
+      <FIN>
+      
+      
+      
+      
+     type : 458752
+   -
+     name : NomCategorie
+     procedure_id : 1575914137622294773
+     type_code : 15
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] NomCategorie (<nIDCategorie> est entier sur 8 octets)
+      //
+      // Paramètres :
+      //	nIDCategorie (entier sur 8 octets) : <indiquez ici le rôle de nIDCategorie>
+      // Valeur de retour :
+      // 	Type indéterminé : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE NomCategorie(nIDCategorie est un entier sur 8)
+      
+      si nIDCategorie=0 _ou_ HLitRecherchePremier(Categorie,IDCategorie,nIDCategorie)=faux ALORS
+      	renvoyer "<aucun>"
+      FIN
+      
+      renvoyer Categorie.NomCategorie
+     type : 458752
+   -
+     name : EstExpiré
+     internal_properties : CAAAAAgAAAAUbxCjftp/mcgox7nmJKtOkSYWyn4xtdbSNNxBOYLiwwyBK3L5PEAhUgpGZRYSZVqwwLwlrsLZM2yYid6EkITZA3waCgS2wzqq0s6SHBV+La4DaWUtdgOQbEHsLuPsdtcT4nGDpDnF/jCLmSLrKyZL9ELIuUfIy3BrKPdLIAColeUPtxVmsfBNO5CSggdrPnMB0zk07+Q=
+     procedure_id : 1615351201666538965
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] EstExpiré (<dhDateExpiration>)
+      //
+      // Paramètres :
+      //	dhDateExpiration :<indiquez ici le rôle de dhDateExpiration>
+      // Valeur de retour :
+      // 	booléen : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE EstExpiré(dhDateExpiration)
+      
+      // Si le dateheure n'est pas renseigné, le mot de passe n'est pas expiré
+      si DateHeureValide(dhDateExpiration)=faux alors 
+      	renvoyer faux
+      FIN
+      
+      renvoyer (dhDateExpiration<DateHeureSys())
+     type : 458752
+   -
+     name : OptimiseBase
+     procedure_id : 1663202196815389224
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      // OptimiseBase ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE OptimiseBase()
+      
+      HRéindexe(Categorie,hNdxCompactage)
+      HRéindexe(MotDePasse,hNdxCompactage)
+      
+      ToastAffiche("Optimisation terminée.")
+     type : 458752
+   -
+     name : VerifieMotDePassePrincipal
+     procedure_id : 1687341819983483627
+     type_code : 15
+     code : |1+
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] VerifieMotDePassePrincipal (<sMotDePasseAVerifier> est chaîne)
+      //
+      // Paramètres :
+      //	sMotDePasseAVerifier (chaîne UNICODE) :<indiquez ici le rôle de sMotDePasseAVerifier>
+      // Valeur de retour :
+      // 	booléen : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE VerifieMotDePassePrincipal( sMotDePasseAVerifier est une chaine )
+      
+      renvoyer gbufMotDePassePrincipal=DeriveMotDePassePrincipal(sMotDePasseAVerifier)
+      
+     type : 458752
+   -
+     name : ImporteBase
+     internal_properties : CAAAAAgAAACK3aXwPrL99LG8+VUjaYFvjQ+iZYDsNigSbBLYHoLaytugvhnHW+Wma38Bg1GsqOZ8zkMPJCM0X4gXxtqSs99JqqSqFFg5mskFgau6MEyUNK/FNAhFhefbF61VKlFT4bh3VC+Mzhwy4IzE81ECZV9ujIMBA6CrfZG+TnSeYTaOIZya
+     procedure_id : 1963339691156037667
+     type_code : 15
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //ImporteBase ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      //	sFichierXML (chaîne UNICODE) : <indiquez ici le rôle de sFichierXML>
+      PROCEDURE ImporteBase()
+      
+      <si CibleExécution=iOS ou CibleExécution=Android>
+      URISélecteur(SurImportBase,"text/xml")
+      
+      	procédure interne SurImportBase(bSuccès est un booléen, uriRésultat est une URI)
+      	si bSuccès ALORS
+      		URIVersBuffer(uriRésultat,SurChargementBase,"text/xml")		
+      	sinon
+      		ToastAffiche("Import annulé.")
+      	FIN
+      	fin 
+      <fin>
+      
+      <si CibleExécution=ApplicationWindows>
+      	sFichier est une chaine = fSélecteur("","","Sélectionnez le fichier à importer","Fichiers XML (*.xml)"+tab+"*.xml",".xml",fselOuvre+fselExiste)
+      	si sFichier<>"" ALORS
+      		bufBuf est un buffer = fChargeBuffer(sFichier)
+      		SurChargementBase(Vrai,bufBuf,"")
+      	FIN
+      <fin>
+      
+      
+      	procédure interne SurChargementBase(bReussite est un booléen, bufBase buffer, sType est une chaîne<utile>)
+      	
+      	si bReussite=faux ALORS
+      		ToastAffiche("Une erreur s'est produite lors de la lecture du fichier à importer.")
+      		retour
+      	FIN
+      	
+      	tabImport est un tableau de STPassword
+      	
+      	// On désérialise le fichier XML directement dans le tableau d'import
+      	QUAND EXCEPTION DANS 
+      		Désérialise(tabImport,bufBase,psdXML)
+      		
+      	FAIRE
+      		ToastAffiche("Format du fichier non reconnu")
+      		RETOUR
+      	FIN
+      	
+      	nNbImport		est un entier
+      	stUnMotDePasse	est un STPassword
+      	POUR TOUT ELEMENT stUnMotDePasse DE tabImport
+      		// Pas de gestion des doublons
+      		MotDePasse.LibMotDePasse	= stUnMotDePasse.Label
+      		MotDePasse.NomUtilisateur	= stUnMotDePasse.Username
+      		MotDePasse.URL				= stUnMotDePasse.URL
+      		MotDePasse.Favori			= stUnMotDePasse.Favorite
+      		MotDePasse.DateCréation		= stUnMotDePasse.CreationDate
+      		MotDePasse.DateModification	= stUnMotDePasse.ModificationDate
+      		MotDePasse.DateAccès		= stUnMotDePasse.LastAccessDate
+      		MotDePasse.DateExpiration	= stUnMotDePasse.ExpirationDate
+      		MotDePasse.Description		= stUnMotDePasse.Description
+      		MotDePasse.MotDePasse		= Chiffre(stUnMotDePasse.Password)
+      		
+      		// Si on a une catégorie de renseignée
+      		SI stUnMotDePasse.Category <> "" ALORS
+      			HLitRecherchePremier(Categorie,NomCategorie,stUnMotDePasse.Category) 
+      			SI HTrouve(Categorie) = Faux ALORS
+      				// On l'ajoute
+      				Categorie.NomCategorie = stUnMotDePasse.Category
+      				// Ajoute la catégorie
+      				SI HAjoute(Categorie) = Faux ALORS
+      					// Impossible d'ajouter la catégorie
+      					HRAZ(Categorie)
+      				FIN
+      			FIN
+      		SINON
+      			// On a pas de catégorie
+      			// On raz le buffer du fichier catégorie, comme ca l'identifiant sera égal à 0
+      			HRAZ(Categorie)		
+      		FIN
+      		
+      		MotDePasse.IDCatégorie = Categorie.IDCategorie
+      		SI HAjoute(MotDePasse) ALORS
+      			nNbImport++
+      		FIN
+      	FIN
+      	
+      	selon nNbImport
+      		cas 0
+      			ToastAffiche("Aucun mot de passe n'a été importé.")
+      		cas 1
+      			ToastAffiche("Un mot de passe a été importé.")
+      		AUTRE CAS
+      			ToastAffiche("[%nNbImport%] mots de passe ont été importés.")
+      	FIN
+      	
+      	fin
+     type : 458752
+   -
+     name : RechercheCategorieParID
+     procedure_id : 1157777072555536617
+     type_code : 15
+     code : |1-
+      procédure RechercheCategorieParID( nIDCategorie ) <métier>
+      
+      renvoyer HLitRecherchePremier(Categorie,IDCategorie,nIDCategorie)
+     type : 458752
+   -
+     name : RechercheCategorieParNom
+     procedure_id : 1157777845654287033
+     type_code : 15
+     code : |1-
+      procédure RechercheCategorieParNom( sNom ) <métier>
+      
+      renvoyer HLitRecherchePremier(Categorie,NomCategorie,sNom)
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+resources :
+ string_res :
+  identifier : 0x15801fc600480525
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text :
+      fr-FR : Format du fichier non reconnu
+     index : 0
+   -
+     text :
+      fr-FR : " mots de passe ont été importés.\"\r\n"
+     index : 1
+   -
+     text :
+      fr-FR : " mots de passe ont été importés.\"\r\n"
+     index : 2
+   -
+     text :
+      fr-FR : "[%nNbImport%] mots de passe ont été importés."
+     index : 3
+   -
+     text :
+      fr-FR : "Attention : des erreurs ont eu lieu pendant l'import. Certains mots de passe n'ont pas pu être ajoutés dans la base."
+     index : 4
+   -
+     text :
+      fr-FR : Format du fichier non reconnu
+     index : 5
+   -
+     text :
+      fr-FR : " mots de passe ont été importés.\"\r\n"
+     index : 6
+   -
+     text :
+      fr-FR : " mots de passe ont été importés.\"\r\n"
+     index : 7
+   -
+     text :
+      fr-FR : Format du fichier non reconnu
+     index : 8
+   -
+     text :
+      fr-FR : " mots de passe ont été importés.\"\r\n"
+     index : 9
+   -
+     text :
+      fr-FR : " mots de passe ont été importés.\"\r\n"
+     index : 10
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

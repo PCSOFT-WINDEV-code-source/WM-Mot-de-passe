@@ -1,0 +1,273 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : MDLC_PatternDessin
+ major_version : 28
+ minor_version : 0
+ type : 20
+ description : ""
+ subtype : 0
+window :
+ name : MDLC_PatternDessin
+ identifier : 0x246a2b7b031ff0cd
+ internal_properties : CAAAAAgAAAC70LwaCTcYcMEpxOcG59+U6iBf3wgh2InBZoNrChWlcLdO/rOJ0I2H/Mnd/LYzl5z1tcNZ6q7o5L5+s3splkkeq27E5UC7JaTQcgTuuJ2a3wP5tSUBj1y1FCPGRWgrFORoYOCLBNtptpYxURLY9BJpR9eb2npMYt7Jp2SjfUqcQ7zfaFSo+xFdeAb60d7coO+j0oCRuf07Ag4uBsuWJ16J51qbJ98DTb91mjuqwBb06rCGqm0h1dI96PvhjJxjEnOpNvvVD9uzjO0WAVOugAaxZaaFOf0cKnvJJ0QGfJxAWjsvuv8+TYHymL5+cOv0wX3GiFnTNyO6BUe5SafrrLxIhnAJxwVbz0prVfaBNRVaaiH1Nuh/QCuM82uBlkXWLNVYZq7Hga65sD3yLv/Lzt2bUAJowCdQBx6DJG//bi7jK3NnLk+0ry4P1dp6NuTYbG9EsL0F+/XJtMbdX4X9o5H4zmpyzss7IfQpYOpfIPUPjcoxsyvOeAbtMVoLS7It26iNu9983BgRcNENHzEIZsFWw2C4IXpYt6rIpdlUb11hSBQVhCDdA3EL6YztD7OnJUScpJZNiCOHXsp4MPa7UcOMl1b6+V159xSLoqhoQ//9as27yJeuhAJeenkbofJo7iKMF2Un4yEhNimTIhcyLX8NPHQ8GFO9enMxY8s2GcQ0c3QHXN9a4kb4+hWwpbeipR8J6XtKl0TBbONg3o+GNetA2bcFLNZnY2ecP9kEa+2H5+3eI4TkzjFfoO2mesVXvTYpTL0hHyJv81HI9BznUdF12IS09B82kXbgXIOxkmTxetnmwlYz7Uy+nRL4MKmXD/d6Bf8VGrjuIeOtuTE2raA+5k9zgHkUUpM=
+ properties :
+  width : 150
+  height : 150
+ controls :
+  -
+    name : MDLC_PatternDessin
+    identifier : 0x246a2b7b0320f0cd
+    internal_properties : CAAAAAgAAAAecUu9xTRci411VLB9OvLUExhsXmFcWUmnLK4bqn24PEZNZU7bWVYWWB5YqqiWGwKbMyuXLCiovQZsuRZzN0Izyl22TsjscIdE6uq1RE0tAB9p5QXyaEsScdKbvRepK6AsxvM1ZojwA7+bn1WOyuxtzBSmtDk6ANeV8gO6+RiZBSLhpUxW2eVcIUoIYCXO5gU9IWDRTjCyG0mxehHpS8GdBUQoRHO+xEfSjIVUEzk2hNL8VMC8UrE1gZJMERGlL/08BcCLpcIF/aiKpzDY3DCCO8YfzN8wh2pqfCAC82ELCeaeAGAYKry9PdbRJpaYyrbaLnvmQVMuK3jXyM/CJteCGHFQ/9ztZElv8wAEGgw59oFM+ebO73V4VcKdL4Z8PKVyFLHzE5LMGUSHAHHB19QE4PY043w3tEPczqwxnARswt+jpQDHziLd0yi8xOyDEZ9uPxVy2FBW/inqnkHEN0g6oIKQU/xK1EUmN/8=
+    properties :
+     width : 150
+     height : 150
+    controls :
+     -
+       name : IMG_PROTECTION
+       identifier : 0x246a2b7b0321f0cd
+       internal_properties : CAAAAAgAAAB+E2OOdvYWLN9IbV9tTYIul5+A8wNr4AVv17y1JsKpElIi+IZk6orJB+DCNj2PUTcd7vBGTGauNCpbR1UBooUFcrxNhh9jouz2CRzUaEuPo9hh0dffg8IEhebGnHeNtGVofM88wMSilwSaPVjIpjo50SQ/ostsWl+2KXYxhY+4a63iDP0krunZ/xr2gAqMqJBEKe/XgXQC+8ezIl+LfVyXgumkLmoGq8mDZsG7C/TKa3Altu0Rvqc+sVTr7PU9kDY8rzwCWJbTiEot3f0vPX72mDcyYELxIauYdo/+Amj2tvfr9HvFnc7sSvQH9IfzWMqVbB+ILLyks21xRuON61aiuLMUWhPBp3RAStzBPLWPOx8vtMbjcLB8WyatpBapyV6x0/0cY2D32HP997xvEN1Oo3e4EIH5PYQZ8iCOKmrDXTI/KT0biXBZUsPtH8vdlpyZDgVcDPhxuzWoA92XtcuabHI+Gie5caUuUVQ1dfPT4uZaHURJ6PKzKVPEM5/dell5hX5c5O4Skc/4cqYZM6L5Ov098+37Ac1Pz/HavAY/bvxyb7tAw0onqB5Akq4Ki+3qDKrq9ZQWfgUkS3O/hUTOcJLw9PcrQWl7ma0UgnXNxA9ZmcUQ3fC3lFJgRmJENeZnmaeIizXm9Er2Umkq4j+wmWXmyOHf/BPq7LkICM8s2R+ZNyn5R6i8anXPauF1EAGdWlq+vL5G9a85RugFp4D4htfiX1jZL1y+uOMmfKBnJ+1s8THoATEhi8a3It55nSYTbEd50m9KPFDZG0xuyNFMwnmpzQm3+rWUjA==
+       properties :
+        width : 150
+        height : 150
+       type : 8
+       code_elements :
+        type_code : 8
+        p_codes :
+         -
+           code : |1+
+            si gnDessinEnCours=1 alors
+            	TraiteSurvol()
+            fin
+           type : 66048
+         -
+           code : |1+
+            si gnDessinEnCours=0 alors
+            	gnDessinEnCours = 1
+            	TraiteSurvol()
+            fin
+            
+           type : 66049
+         -
+           code : |1+
+            
+            gnDessinEnCours = 2
+            
+            // En vérification, il faut surcharger ce traitement pour vérifier si le pattern tracé correspond au pattern attendu
+           type : 66050
+     -
+       name : IMG_BASE
+       identifier : 0x246a2bd9034a6070
+       internal_properties : CAAAAAgAAAAuV6IKkJ0Q3NPkQfUhfN1OHxzB0oHS0saVRX5iA3V/A51sdiL7AjFTjcgKJN7A0Wu15BsuPjK/CRlHFpWjov6J9y8j55Y9cfZJhwQL+jlbvqUCvm6HevhmzrnkIm+rvM8HKPgNj9vAmjXBHH3AApdrhKRzzbLYjojw1I0lElSkDEEmCW7LxeG3x0BfxRjhrsRpYzZLYorYLCyt6vw0xrQBLHHIAa+if7EFLK+bx2IGLRImra+nCSFE8NDo+ElKPA53G4mJwL8UnD1ungLMVkxHnuAprXR4SI4Cqx/st1GKE+sS4zV0waN2eyqMzF+u2aeo/gQ5Yp8oBFJ2kt2b0HTOlVycqexEyTKXG+hKwkROVjsABu9JA4hADehkUcfHxdXAOgMLXZhlkXEnp4PiFtDGoJzS1oLg1J3m64REHCRAcMDQTs3DRCfOJoYlv/FnD5C0dCou2/9mmwIWsr8MWFjgcO4n8QtpwmvBIkURRDWurqZSPfxcfQLPi2BhQ9qt/90xx7QX5UDV3mbLQ7mxe9F3pa2JtKIBZBN36Ns/yarDtu3rcVlHkUipqCqXQTAsZ6tpbzaewjB5jxRES935OTqtAfAlLAdFAXRFKd7vPBpQU3v3nhBqbXWx/Nf9RshjCiOPPCRLhGX03quxQDnsuEqF+CF7TwzABdgHMdKeNzLAYiIrRb8lhKUF3ncPYfCy2UQl2H/+5xqXyRETjugKY5W2SpbFqbpS36FJddBHYElY/9285kSWQy+Y13Di/Sn0zM5V0nWlMa3ymTsqw3+/hIafrSnSA+ALDPKKwaX8gKccaBcme+w7QDA+YQPs3K4y6lQko+Qrja+hHIs+aOcwmVzq1wCjZFB3VwhNVdtE8yNZ
+       properties :
+        x : 184
+        width : 50
+        height : 50
+       type : 8
+       code_elements :
+        type_code : 8
+        p_codes : []
+     -
+       name : IMG_SURVOL
+       identifier : 0x246a2bd9034e6070
+       internal_properties : CAAAAAgAAABdJLcfp0zvZwK73AeCL2znatKPAbS7vGY80FEH7LzM6Ejfr/fYo+7iFvMhDzXBHv60e5DlN0RmPPBexfrew+WW3MZDUreqxkY41l9yj9ymQpwhn8V0SxfwfSx2dQk8Hxbxa9ZVwuc8dNWRBVpou/gKtxsWaBuZkIiXOi6rAArC5Jt7pUVlPUl4kTxZcOPV9sN+Rc2op4B7OkrSuSOkGWnM9YR/nZYFH5GbUz7aDt5JLDECcmzb/5wspXMrm8JOv8Ij7HugHOrpDYERHyOVQqmi3AJh6TH/G7ChMUPH5jBQCmiTklBrRSlururzlaSJLGCFhl2AO6SojZptyfMA4Yn6YP/gkfLjfXXIrxV54EFnyiw2x2QKwE4fBCdzrtsOsEDt3OyesR0c6m0uPmDfsqTxyUGjxcQXU5abiBVJ2xFpJ7VtbTXbPPeSIuKB49WXTRS4WkjAjW/MQyI41dDfh5uPFsH28vRg/gF75NbkEducTFBidhHHSF3iV6IjNQgGeKs9C+/c/lKDggXUaVRzdZ248r5SLP4fI6gT5tn/ues4XbJCLC78hcwWFlGocD8DfsZhuTJGuRZ5yMWx7Is4gd3QoLT5GovvBOm2OIQrR5F8BLa3Rlh+CwtO7b9OFQf7+iWLX3ssu9Q0pTOn7nK380sMwd6TZ/BoSMKlyBMlvOpafjnFm+8M0AAWPlALyTcb26UJZXkLioKnbjfj7obiCw9EqtZeKrNgfrdw7SLaZFVrst65jvJDMjBSf1LMwS3oghG2sbAIwEYdB+2mD6Gypft2siot6IWGiTlV06eoROdetpdOFcJV7OgIPyOM6LLqvKhqcxSpz+OPKZu+9NH55xwg/TgrO7usrj12GhAv5lCq
+       properties :
+        x : 244
+        width : 50
+        height : 50
+       type : 8
+       code_elements :
+        type_code : 8
+        p_codes : []
+    type : 42
+    code_elements :
+     type_code : 92
+     p_codes :
+      -
+        code : |1+
+         
+         gtabPoint est un tableau de STRect
+         gnDessinEnCours est un entier = 0	// 0 = pas encore dessiné, 1 = dessin en cours, 2 = dessin terminé
+         gtaPattern est un tableau associatif d'entiers
+         gtabPatternOrdre est un tableau d'entiers
+         
+         gnLargeurPoint est un entier
+         gnHauteurPoint est un entier
+      -
+        code : |1+
+         
+         InitialiseChamp()
+        type : 14
+ menu :
+  name : _Menu
+  identifier : 0x246a2b6a0271ae60
+  internal_properties : CAAAAAgAAAAFaI2qJX8UEB99XfCx9752u+izfpc4JSeOKmGiFAFrLKT8g2mwifkii2XXStoBIVaLzyYEll9OQWwwtVQkhOL25O5kKxgRsGgPtw/aT2D0GJ1OZgV3uLj4vAHCBNQ22RwXJabu0YQxKOIryJN6crP2TV9D9PVx1vcec+SYLIg2eE0dcKgBstk2sfz5FDcPtsdmMCrXeDcYNMx42DWT6wZ8RVpCOHhtrQu3yim4HtmZUBfg+gvgEIwKnItfuOkQw/AuJSVjoIRRvGM3zpIEKh2/5W93vf+yOn4yHr6xTEZoUURWCsrcBMNgMzFrgKK/bv0=
+  options : []
+ languages :
+  - fr-FR
+ popup_menus : []
+ message_bar : {}
+ actionbar : {}
+ code_elements :
+  internal_properties : CAAAAAgAAAAbtNmSqtsOkx+QsZf2+WanOeFBVnc5uYmf5qmuvsRGWGuytMQn3hxD44bzPpedRjj3oPOr98XPV19NTS+YHw==
+  type_code : 91
+  p_codes : []
+  procedures :
+   -
+     name : InitialiseChamp
+     procedure_id : 1663254904703214082
+     type_code : 14
+     code : |1-
+      // Résumé : Initialisation du champ et dessin de la matrice initiale
+      // Syntaxe :
+      //InitialiseChamp ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	Aucune
+      //
+      PROCEDURE InitialiseChamp()
+      
+      SupprimeTout(gtabPoint)
+      SupprimeTout(gtaPattern)
+      SupprimeTout(gtabPatternOrdre)
+      
+      nMargeH est un entier = CoordonnéeEditeurVersEcran(15)
+      nMargeV est un entier = CoordonnéeEditeurVersEcran(15)
+      
+      nMargeIntH est un entier = (IMG_PROTECTION..Largeur - (2*nMargeH)) * 0.05
+      nMargeIntV est un entier = (IMG_PROTECTION..Hauteur - (2*nMargeV)) * 0.05
+      
+      // Taille d'un point en fonction de la taille effective du champ (après application des ancrages)
+      gnLargeurPoint = (IMG_PROTECTION..Largeur - (2*nMargeH)) * 0.3
+      gnHauteurPoint = (IMG_PROTECTION..Hauteur - (2*nMargeV)) * 0.3
+      si gnLargeurPoint>gnHauteurPoint ALORS
+      	gnLargeurPoint = gnHauteurPoint
+      sinon
+      	gnHauteurPoint = gnLargeurPoint
+      FIN
+      
+      // Calcul du rectangle de chaque "case"
+      POUR nLigne=1 _à_ 3
+      	POUR nCol=1 _a_ 3
+      		r est un STRect
+      		r.x1 = ((nCol-1) * (gnLargeurPoint+nMargeIntH)) + nMargeH
+      		r.y1 = ((nLigne-1) * (gnHauteurPoint+nMargeIntV)) + nMargeV
+      		r.x2 = r.x1 + gnLargeurPoint
+      		r.y2 = r.y1 + gnHauteurPoint
+      		
+      		Ajoute(gtabPoint,r)
+      	FIN
+      FIN
+      
+      // Dessin de la matrice vide
+      dDébutDessin(IMG_PROTECTION,dEffacer )
+      dChangeMode(dessinAntiAliasing)
+      
+      POUR n=1 à 9
+      	iSrc est une image = IMG_BASE	// Il faut passer par un type image sinon dCopie ne tient pas compte de la couleur de transparence
+      	dCopie(iSrc,IMG_PROTECTION,0,0,IMG_BASE..Largeur,IMG_BASE..Hauteur,gtabPoint[n].x1,gtabPoint[n].y1,gnLargeurPoint,gnHauteurPoint)
+      FIN
+      
+      gnDessinEnCours = 0
+     type : 458752
+   -
+     name : PatternVersChaine
+     procedure_id : 1686949882723720622
+     type_code : 14
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      //[ <Résultat> = ] PatternVersChaine ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	chaîne UNICODE : // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE PatternVersChaine()
+      
+      sChaine est une chaîne
+      
+      pour tout nRang, nElem de gtaPattern
+      	sChaine += [","]+nElem
+      FIN
+      
+      renvoyer sChaine
+     type : 458752
+   -
+     name : TraiteSurvol
+     procedure_id : 1762300780622025362
+     type_code : 14
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      // TraiteSurvol ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE TraiteSurvol()
+      
+      // On ne peut pas dépasser neuf éléments dans le pattern
+      SI gtaPattern..Occurrence=9 ALORS
+      	RETOUR
+      FIN
+      
+      // Recherche de l'élément survolé
+      nX est un entier = SourisPosX() 
+      nY est un entier = SourisPosY() 
+      iSrc est une image = IMG_SURVOL
+      
+      POUR n=1 _a_ 9
+      	r est un STRect = gtabPoint[n]
+      	SI (r.x1<nX<r.x2) _ET_ (r.y1<nY<r.y2) ALORS
+      		nNbElem est un entier
+      		
+      		SI gtaPattern[n]=0 ALORS
+      			// Ajoute l'élément survolé dans le tableau du pattern
+      			gtaPattern[n] = (gtaPattern..Occurrence+1)
+      			Ajoute(gtabPatternOrdre,n)
+      			nNbElem = gtabPatternOrdre..Occurrence
+      			SI nNbElem>1 ALORS
+      				r2 est un STRect = gtabPoint[gtabPatternOrdre[nNbElem-1]]
+      				
+      				nX1 est un entier = r.x1 + (r.x2 - r.x1)/2
+      				nY1 est un entier = r.y1 + (r.y2 - r.y1)/2
+      				
+      				nX2 est un entier  = r2.x1 + (r2.x2 - r2.x1)/2
+      				nY2 est un entier = r2.y1 + (r2.y2 - r2.y1)/2
+      				
+      				// Dessin de la ligne
+      				dLigne(nX1,nY1,nX2,nY2, RVB(255,255,255), 10)
+      //				dCopie(iSrc,IMG_PROTECTION,0,0,IMG_BASE..Largeur,IMG_BASE..Hauteur,r2.x1,r2.y1,gnLargeurPoint, gnHauteurPoint)
+      			FIN
+      			dCopie(iSrc,IMG_PROTECTION,0,0,IMG_BASE..Largeur,IMG_BASE..Hauteur,r.x1,r.y1,gnLargeurPoint, gnHauteurPoint)
+      		FIN
+      		// Dès qu'un point matche, on sort
+      		RETOUR
+      	FIN	
+      FIN
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : MDLC_SansNom1
+resources :
+ string_res :
+  identifier : 0x1fd10d820098c776
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAAC68/W0/adbG0nFCRhrE42B5HRnbDzVHaz86sSQyxlBk7I=
+rad :
+ internal_properties : CAAAAAgAAABoAN7PLpwJW3EiA7WVZdCA5EwrCA1rvutcDHooMWKe
